@@ -12,31 +12,32 @@ namespace DataAccessLayer.Repositories
     public class CategoryRepository : ICategoryDal
     {
         Context context = new Context();
-        public void AddCategory(Category category)
+
+        public void Delete(Category t)
         {
-            context.Add(category);
+            context.Remove(t);
             context.SaveChanges();
         }
 
-        public void DeleteCategory(Category category)
+        public Category GetByID(int id)
         {
-            context.Remove(category);
+            throw new NotImplementedException();
+        }
+
+        public List<Category> GetListAll()
+        {
+            return context.Categories.ToList(); 
+        }
+
+        public void Insert(Category t)
+        {
+            context.Add(t);
             context.SaveChanges();
         }
 
-        public Category GetById(int id)
+        public void Update(Category t)
         {
-            return context.Categories.Find(id);
-        }
-
-        public List<Category> ListAllCategory()
-        {
-            return context.Categories.ToList();
-        }
-
-        public void UpdateCategory(Category category)
-        {
-            context.Update(category);
+            context.Remove(t);
             context.SaveChanges();
         }
     }
