@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLayer.Concrete;
+using DataAccessLayer.EntityFramework;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,13 @@ namespace WriterWebSite.Controllers
 {
     public class BlogController : Controller
     {
-        public IActionResult Index()
+        BlogManager bm = new BlogManager(new EfBlogRepository());
+        public IActionResult Blog()
+        {
+            var values = bm.GetBlogListWithCategory();
+            return View(values);
+        }
+        public IActionResult BlogDetails(int id)
         {
             return View();
         }
