@@ -14,13 +14,13 @@ namespace WriterWebSite.Controllers
 
         public IActionResult About()
         {
-            return View();
+            var values = abm.GetList();
+            return View(values);
         }
 
         public PartialViewResult SocialMediaAbout()
         {
-            var values = abm.GetList();
-            return PartialView(values);
+            return PartialView();
         }
     }
 }

@@ -22,6 +22,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <link href="~/WriterTema/css/bootstrap.css" rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="~/WriterTema/css/single.css">
+    <link href="~/WriterTema/css/contact.css" rel='stylesheet' type='text/css' />
     <link href="~/WriterTema/css/style.css" rel='stylesheet' type='text/css' />
     <link href="~/WriterTema/css/fontawesome-all.css" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800"
@@ -35,7 +36,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="top-bar_sub_w3layouts container-fluid">
             <div class="row">
                 <div class="col-md-4 logo text-left">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="/Home/Index/">
                         <i class="fab fa-linode"></i> Writer Blog
                     </a>
                 </div>
@@ -74,15 +75,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         @await Html.PartialAsync("~/Views/Shared/Partials/Partial1.cshtml") @*menü alanı*@
 
-
     </header>
     <!--//header-->
 
     @RenderBody()
     <!--footer-->
     @await Html.PartialAsync("~/Views/Shared/Partials/Partial3.cshtml") @*footer alanı*@
-
     <!---->
+
     <!-- js -->
     <script src="~/WriterTema/js/jquery-2.2.3.min.js"></script>
     <!-- //js -->
@@ -124,8 +124,5 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <!-- //Custom-JavaScript-File-Links -->
     <script src="~/WriterTema/js/bootstrap.js"></script>
-
-
 </body>
-
 </html>
