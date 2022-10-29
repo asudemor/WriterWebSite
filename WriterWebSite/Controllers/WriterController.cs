@@ -9,7 +9,6 @@ namespace WriterWebSite.Controllers
 {
     public class WriterController : Controller
     {
-        [AllowAnonymous]
         public IActionResult Writer()
         {
             return View();

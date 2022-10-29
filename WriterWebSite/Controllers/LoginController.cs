@@ -1,11 +1,13 @@
 ﻿using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace WriterWebSite.Controllers
@@ -20,17 +22,38 @@ namespace WriterWebSite.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-
-        public IActionResult Login(Writer writer)
+        public async Task<IActionResult> Login(Writer writer)
         {
             Context context = new Context();
             var datavalues = context.Writers.FirstOrDefault(x => x.WriterMail == writer.WriterMail && x.WriterPassword == writer.WriterPassword);
+
             if (datavalues != null)
             {
-                HttpContext.Session.SetString("username", writer.WriterMail);
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name,writer.WriterMail)
+                };
+                var useridentity = new ClaimsIdentity(claims, "a");
+                ClaimsPrincipal principal = new ClaimsPrincipal(useridentity);
+                await HttpContext.SignInAsync(principal);
                 return RedirectToAction("Writer", "Writer");
             }
-            return View();
+            else
+            {
+                return View();
+            }
         }
     }
 }
+
+//public IActionResult Login(Writer writer)
+//{
+//    Context context = new Context();
+//    var datavalues = context.Writers.FirstOrDefault(x => x.WriterMail == writer.WriterMail && x.WriterPassword == writer.WriterPassword);
+//    if (datavalues != null)
+//    {
+//        HttpContext.Session.SetString("username", writer.WriterMail);
+//        return RedirectToAction("Writer", "Writer");
+//    }
+//    return View();
+//}
