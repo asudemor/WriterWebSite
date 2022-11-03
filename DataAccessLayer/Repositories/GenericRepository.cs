@@ -20,7 +20,8 @@ namespace DataAccessLayer.Repositories
 
         public T GetByID(int id)
         {
-            throw new NotImplementedException();
+            using var context = new Context();
+            return context.Set<T>().Find(id);
         }
 
         public List<T> GetListAll()

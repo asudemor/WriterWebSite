@@ -17,6 +17,8 @@ namespace WriterWebSite.Controllers
     public class BlogController : Controller
     {
         BlogManager bm = new BlogManager(new EfBlogRepository());
+        CategoryManager cm = new CategoryManager(new EfCategoryRepository());
+
         public IActionResult Blog()
         {
             var values = bm.GetBlogListWithCategory();
@@ -33,11 +35,10 @@ namespace WriterWebSite.Controllers
             var values = bm.GetListWithCategoryByWriterBm(1);
             return View(values);
         }
-        
+
         [HttpGet]
         public IActionResult BlogAdd()
         {
-            CategoryManager cm = new CategoryManager(new EfCategoryRepository());
             List<SelectListItem> categoryValues = (from x in cm.GetList()
                                                    select new SelectListItem
                                                    {
@@ -46,7 +47,7 @@ namespace WriterWebSite.Controllers
                                                    }).ToList();
             ViewBag.cv = categoryValues;
             return View();
-        }        
+        }
         [HttpPost]
         public IActionResult BlogAdd(Blog blog)
         {
@@ -70,10 +71,31 @@ namespace WriterWebSite.Controllers
             return View();
         }
 
-        public IActionResult DeleteBlog(int id)
+        public IActionResult BlogDelete(int id)
         {
             var blogValues = bm.TGetByID(id);
             bm.TDelete(blogValues);
+            return RedirectToAction("BlogListByWriter", "Blog");
+        }
+
+        [HttpGet]
+        public IActionResult BlogEdit(int id)
+        {
+            var blogValue = bm.TGetByID(id);
+            List<SelectListItem> categoryValues = (from x in cm.GetList()
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = x.CategoryName,
+                                                       Value = x.CategoryID.ToString()
+                                                   }).ToList();
+            ViewBag.cv = categoryValues;
+            return View(blogValue);
+        }
+        [HttpPost]
+        public IActionResult BlogEdit(Blog blog)
+        {
+            blog.WriterID = 1;
+            bm.TUpdate(blog);
             return RedirectToAction("BlogListByWriter", "Blog");
         }
     }
