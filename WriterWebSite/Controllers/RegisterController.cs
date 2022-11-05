@@ -30,7 +30,7 @@ namespace WriterWebSite.Controllers
             {
                 writer.WriterStatus = true;
                 writer.WriterAbout = "Deneme";
-                wm.WriterAdd(writer);
+                wm.TAdd(writer);
                 return RedirectToAction("Blog", "Blog");
             }
             else
