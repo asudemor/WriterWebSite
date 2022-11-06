@@ -10,7 +10,6 @@ namespace WriterWebSite.Controllers
 {
     public class DashboardController : Controller
     {
-        [AllowAnonymous]
         public IActionResult Dashboard()
         {
             Context context = new Context();

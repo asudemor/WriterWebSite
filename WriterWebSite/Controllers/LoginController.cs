@@ -14,6 +14,7 @@ namespace WriterWebSite.Controllers
 {
     public class LoginController : Controller
     {
+
         [AllowAnonymous]
         public IActionResult Login()
         {
@@ -36,7 +37,7 @@ namespace WriterWebSite.Controllers
                 var useridentity = new ClaimsIdentity(claims, "a");
                 ClaimsPrincipal principal = new ClaimsPrincipal(useridentity);
                 await HttpContext.SignInAsync(principal);
-                return RedirectToAction("Writer", "Writer");
+                return RedirectToAction("Dashboard", "Dashboard");
             }
             else
             {

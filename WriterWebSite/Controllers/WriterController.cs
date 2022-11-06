@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Concrete;
 using BusinessLayer.ValidationRules;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
@@ -17,8 +18,16 @@ namespace WriterWebSite.Controllers
     public class WriterController : Controller
     {
         WriterManager wm = new WriterManager(new EfWriterRepository());
+        Context context = new Context();
+
+        [Authorize]
         public IActionResult Writer()
         {
+            var usermail = User.Identity.Name;
+            ViewBag.UserMail = usermail;
+            Context context = new Context();
+            var writername = context.Writers.Where(x => x.WriterMail == usermail).Select(y => y.WriterName).FirstOrDefault();
+            ViewBag.WriterName = writername;
             return View();
         }
         public IActionResult WriterProfile()
@@ -26,12 +35,6 @@ namespace WriterWebSite.Controllers
             return View();
         }
         public IActionResult WriterMail()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        public IActionResult Test()
         {
             return View();
         }
@@ -46,18 +49,19 @@ namespace WriterWebSite.Controllers
         {
             return PartialView();
         }
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult WriterEditProfile()
         {
-            var writerValues = wm.TGetByID(1);
+            var usermail = User.Identity.Name;
+            var writerId = context.Writers.Where(x => x.WriterMail == usermail).Select(y => y.WriterID).FirstOrDefault();
+            var writerValues = wm.TGetByID(writerId);
             return View(writerValues);
         }
         
-        [AllowAnonymous]
         [HttpPost]
         public IActionResult WriterEditProfile(Writer writer)
         {
+            
             WriterValidator wl = new WriterValidator();
             ValidationResult results = wl.Validate(writer);
             if (results.IsValid)
