@@ -46,15 +46,3 @@ namespace WriterWebSite.Controllers
         }
     }
 }
-
-//public IActionResult Login(Writer writer)
-//{
-//    Context context = new Context();
-//    var datavalues = context.Writers.FirstOrDefault(x => x.WriterMail == writer.WriterMail && x.WriterPassword == writer.WriterPassword);
-//    if (datavalues != null)
-//    {
-//        HttpContext.Session.SetString("username", writer.WriterMail);
-//        return RedirectToAction("Writer", "Writer");
-//    }
-//    return View();
-//}
