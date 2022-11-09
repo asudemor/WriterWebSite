@@ -4,12 +4,13 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-<h1>BlogListExcel</h1>
-<br />
-<button class="btn btn-primary" onclick="DownloadExcelBlogList()">Excel listesini İndir</button>
+<div class="col-12">
+    <p>Blog Listesini İndirmek İçin Tıklayın</p>
+    <button class="btn btn-primary" onclick="DownloadExcelBlogList()">Excel İndir</button>
+</div>
 
 <script>
     function DownloadExcelBlogList() {
-        window.open("/Admin/Blog/.../") @*değişecek*@
-    }
+        window.open("/Admin/Blog/ExportDynamicExcelBlogList");
+    };
 </script>
