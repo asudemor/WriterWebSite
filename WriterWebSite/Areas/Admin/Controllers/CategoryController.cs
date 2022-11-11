@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 using X.PagedList;
 using BusinessLayer.ValidationRules;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WriterWebSite.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [AllowAnonymous]
     public class CategoryController : Controller
     {
 

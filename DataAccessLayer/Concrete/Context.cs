@@ -29,6 +29,7 @@ namespace DataAccessLayer.Concrete
                 .OnDelete(DeleteBehavior.ClientSetNull);
         }
         public DbSet<About> Abouts { get; set; }
+        public DbSet<Admin> Admins{ get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogRating> BlogRatings { get; set; }
         public DbSet<Category> Categories { get; set; }
