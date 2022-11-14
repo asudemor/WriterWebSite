@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
@@ -18,6 +19,12 @@ namespace WriterWebSite.Areas.Admin.ViewComponents.Statistic
             ViewBag.v1 = bm.GetList().Count();
             ViewBag.v2 = context.Contacts.Count();
             ViewBag.v3 = context.Comments.Count();
+
+            string api = "14ad2aba611dbef9c504b82a127794c5";
+            string connection = "https://api.openweathermap.org/data/2.5/weather?q=istanbul&mode=xml&lang=tr&units=metric&appid="+api;
+            XDocument document = XDocument.Load(connection);
+            ViewBag.v4 = document.Descendants("temperature").ElementAt(0).Attribute("value").Value;
+            ViewBag.v5 = document.Descendants("weather").ElementAt(0).Attribute("value").Value;
             return View();
         }
     }
