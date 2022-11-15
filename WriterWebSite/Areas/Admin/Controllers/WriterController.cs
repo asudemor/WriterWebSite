@@ -32,5 +32,18 @@ namespace WriterWebSite.Areas.Admin.Controllers
                 ID=1,Name="Asude"
             }
         };
+        public IActionResult GetWriterByID(int writerId)
+        {
+            var findWriter = writers.FirstOrDefault(x => x.ID == writerId);
+            var jsonWriters = JsonConvert.SerializeObject(findWriter);
+            return Json(jsonWriters);
+        }
+        [HttpPost]
+        public IActionResult AddWriter(WriterModel writer)
+        {
+            writers.Add(writer);
+            var jsonWriters = JsonConvert.SerializeObject(writer);
+            return Json(jsonWriters);
+        }
     }
 }

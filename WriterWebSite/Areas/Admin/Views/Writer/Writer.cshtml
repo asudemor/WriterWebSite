@@ -7,12 +7,31 @@
 <h1>Yazar Ajax İşlemleri</h1>
 <br />
 <button type="button" id="btngetlist" class="btn btn-outline-primary">Yazar Listesi</button>
-<br />
-<br />
 
 <div id="writerlist">
-    Buraya yazarlar gelecek
+
 </div>
+<br />
+<button type="button" id="btngetbyid" class="btn btn-outline-success">Yazar Getir</button>
+
+<div id="writerget">
+</div>
+<br />
+
+<div>
+    <input type="text" id="writerId" placeholder="Yazar ID değerini girin" class="form-control" />
+</div>
+<br />
+
+<div>
+    <button type="button" id="btnaddwriter" class="btn btn-outline-success">Yazar Ekle</button>
+    <br />
+    <br />
+    <input type="text" id="txtwriterid" placeholder="Yazar ID" class="form-control" />
+    <input type="text" id="txtwritername" placeholder="Yazar Adı" class="form-control" />
+</div>
+
+
 
 @section scripts{
     <script>
@@ -34,6 +53,39 @@
                 }
             });
         });
-
+
+        $("#btngetbyid").click(x => {
+            let id = $("#writerId").val();
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "Get",
+                url: "/Admin/Writer/GetWriterByID/",
+                data: { writerId: id },
+                success: function (func) {
+                    let w = jQuery.parseJSON(func);
+                    console.log(w);
+                    let getvalue = `<div class='ibox-title'><h5>Yazar Listesi</h5></div><div class='ibox-content'><table class='table'><thead><tr><th> Yazar ID</th> <th> Yazar Adı </th></tr></thead><tr><td>${w.ID}</td> <td>${w.Name}</td></tr>`;
+                    $("#writerget").html(getvalue);
+                }
+            });
+        });
+
+        $("#btnaddwriter").click(function () {
+            let writer = {
+                ID: $("#txtwriterid").val(),
+                Name: $("#txtwritername").val()
+            };
+
+            $.ajax({
+                type: "post",
+                url: "/Admin/Writer/AddWriter/",
+                data: writer,
+                success: function (func) {
+                    let result = jQuery.parseJSON(func);
+                    alert("Yazar Ekleme İşlemi Başarıyla Gerçekleşti.");
+                }
+            });
+        });
     </script>
 }
