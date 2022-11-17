@@ -5,33 +5,40 @@
 }
 
 <h1>Yazar Ajax İşlemleri</h1>
-<br />
-<button type="button" id="btngetlist" class="btn btn-outline-primary">Yazar Listesi</button>
 
 <div id="writerlist">
+</div>
+<br />
+<button type="button" id="btngetlist" class="btn btn-outline-primary">Yazar Listesi</button>
+<br />
+<hr />
 
+<div id="writerget">
+    <input type="text" id="writerId" placeholder="Yazar ID değerini girin" class="form-control" /><br />
 </div>
 <br />
 <button type="button" id="btngetbyid" class="btn btn-outline-success">Yazar Getir</button>
-
-<div id="writerget">
-</div>
 <br />
+<hr />
+<div>
+    <input type="text" id="txtwriterid" placeholder="Yazar ID" class="form-control" /><br />
+    <input type="text" id="txtwritername" placeholder="Yazar Adı" class="form-control" /><br />
+    <button type="button" id="btnaddwriter" class="btn btn-outline-success">Yazar Ekle</button><br />
+</div>
+<hr />
 
 <div>
-    <input type="text" id="writerId" placeholder="Yazar ID değerini girin" class="form-control" />
+    <input type="text" id="txtwriteridDelete" placeholder="Yazar ID" class="form-control" /><br />
+    <button type="button" id="btndeletewriter" class="btn btn-outline-danger">Yazar Sil</button><br />
 </div>
-<br />
+<hr />
 
 <div>
-    <button type="button" id="btnaddwriter" class="btn btn-outline-success">Yazar Ekle</button>
-    <br />
-    <br />
-    <input type="text" id="txtwriterid" placeholder="Yazar ID" class="form-control" />
-    <input type="text" id="txtwritername" placeholder="Yazar Adı" class="form-control" />
+    <input type="text" id="txtwriteridUpdate" placeholder="Yazar ID" class="form-control" /><br />
+    <input type="text" id="txtwriternameUpdate" placeholder="Yazar Adı" class="form-control" /><br />
+    <button type="button" id="btnupdatewriter" class="btn btn-outline-info">Yazar Güncelle</button><br />
 </div>
-
-
+<hr />
 
 @section scripts{
     <script>
@@ -87,5 +94,35 @@
                 }
             });
         });
+
+        $("#btndeletewriter").click(function () {
+            let id = $("#txtwriteridDelete").val();
+
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "/Admin/Writer/DeleteWriter/" + id,
+                success: function (func) {
+                    alert("Yazar Silme İşlemi Başarıyla Gerçekleşti.");
+                }
+            });
+        });
+
+        $("#btnupdatewriter").click(function () {
+            let writer = {
+                ID: $("#txtwriteridUpdate").val(),
+                Name: $("#txtwriternameUpdate").val()
+            };
+
+            $.ajax({
+                type: "post",
+                url: "/Admin/Writer/UpdateWriter/",
+                data: writer,
+                success: function (func) {
+                    alert("Yazar Güncelleme İşlemi Başarıyla Gerçekleşti.");
+                }
+            });
+        });
+
     </script>
 }

@@ -45,5 +45,18 @@ namespace WriterWebSite.Areas.Admin.Controllers
             var jsonWriters = JsonConvert.SerializeObject(writer);
             return Json(jsonWriters);
         }
+        public IActionResult DeleteWriter(int id)
+        {
+            var writer = writers.FirstOrDefault(x => x.ID == id);
+            writers.Remove(writer);
+            return Json(writer);
+        }
+        public IActionResult UpdateWriter(WriterModel writer)
+        {
+            var updatewriter = writers.FirstOrDefault(x => x.ID == writer.ID);
+            updatewriter.Name = writer.Name;
+            var jsonWriters = JsonConvert.SerializeObject(updatewriter);
+            return Json(jsonWriters);
+        }
     }
 }
