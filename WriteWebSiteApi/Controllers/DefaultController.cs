@@ -19,5 +19,53 @@ namespace WriteWebSiteApi.Controllers
             var values = context.Employees.ToList();
             return Ok(values);
         }
+        [HttpPost]
+        public IActionResult EmployeeAdd(Employee employee)
+        {
+            using var context = new Context();
+            context.Add(employee);
+            context.SaveChanges();
+            return Ok();
+        }
+        [HttpGet("{id}")]
+        public IActionResult EmployeeGet(int id)
+        {
+            using var context = new Context();
+            var employee = context.Employees.Find(id);
+            return employee == null ? NotFound() : Ok(employee);
+        }
+        [HttpDelete("{id}")]
+        public IActionResult EmployeeDelete(int id)
+        {
+            using var context = new Context();
+            var employee = context.Employees.Find(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                context.Remove(employee);
+                context.SaveChanges();
+                return Ok();
+            }
+        }
+        [HttpPut]
+        public IActionResult EmployeeUpdate(Employee employee)
+        {
+            using var context = new Context();
+            var emp = context.Employees.Find(employee.ID);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                emp.Name = employee.Name;
+                context.Update(emp);
+                context.SaveChanges();
+                return Ok();
+            }
+        }
     }
 }

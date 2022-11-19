@@ -1,0 +1,18 @@
+﻿@model WriterWebSite.Controllers.Class1
+@{
+    ViewData["Title"] = "EditEmployee";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>API ile Çalışan Güncelleme Sayfası</h1>
+
+<form method="post">
+    <label>ID</label>
+    @Html.TextBoxFor(x => x.ID, new { @class = "form-control" })
+    <br />
+    <label>İsim ve Soyisim</label>
+    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-outline-info">Güncelle</button>
+</form>
+

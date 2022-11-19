@@ -1,0 +1,29 @@
+﻿@using WriterWebSite.Controllers
+@model List<Class1>
+
+@{
+    ViewData["Title"] = "EmployeeTest";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<a href="/EmployeeTest/AddEmployee/" class="btn btn-outline-success">Yeni Çalışan Ekle</a>
+<br />
+<br />
+<table class="table table-bordered" style="font-family: 'Rock Salt', cursive; text-align:center;">
+    <tr>
+        <th>#</th>
+        <th>Adı Soyadı</th>
+        <th>Sil</th>
+        <th>Düzenle</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ID</td>
+            <td>@item.Name</td>
+            <td><a href="/EmployeeTest/DeleteEmployee/@item.ID" class="btn btn-outline-danger">Sil</a></td>
+            <td><a href="/EmployeeTest/EditEmployee/@item.ID" class="btn btn-outline-info">Düzenle</a></td>
+        </tr>
+    }
+</table>
+
