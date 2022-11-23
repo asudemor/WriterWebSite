@@ -20,11 +20,14 @@ namespace WriterWebSite.Controllers
         CategoryManager cm = new CategoryManager(new EfCategoryRepository());
         Context context = new Context();
 
+        [AllowAnonymous]
         public IActionResult Blog()
         {
             var values = bm.GetBlogListWithCategory();
             return View(values);
         }
+        [AllowAnonymous]
+
         public IActionResult BlogReadAll(int id)
         {
             ViewBag.i = id;

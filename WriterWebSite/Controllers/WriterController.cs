@@ -5,6 +5,7 @@ using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,14 @@ namespace WriterWebSite.Controllers
     {
         WriterManager wm = new WriterManager(new EfWriterRepository());
         Context context = new Context();
+        UserManager userManager = new UserManager(new EfUserRepository());
+
+        private readonly UserManager<AppUser> _userManager;
+
+        public WriterController(UserManager<AppUser> userManager)
+        {
+            _userManager = userManager;
+        }
 
         [Authorize]
         public IActionResult Writer()
@@ -52,10 +61,11 @@ namespace WriterWebSite.Controllers
         [HttpGet]
         public IActionResult WriterEditProfile()
         {
-            var usermail = User.Identity.Name;
-            var writerId = context.Writers.Where(x => x.WriterMail == usermail).Select(y => y.WriterID).FirstOrDefault();
-            var writerValues = wm.TGetByID(writerId);
-            return View(writerValues);
+            var username = User.Identity.Name;
+            var usermail = context.Users.Where(x => x.UserName == username).Select(y => y.Email).FirstOrDefault();
+            var id = context.Users.Where(x => x.Email == usermail).Select(y => y.Id).FirstOrDefault();
+            var values = userManager.TGetByID(id);
+            return View(values);
         }
         
         [HttpPost]

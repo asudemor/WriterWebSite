@@ -1,0 +1,85 @@
+﻿@model UserSignUpViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AMOR Yazılım | Kayıt Ol</title>
+
+    <link href="~/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/admin/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="~/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/admin/css/animate.css" rel="stylesheet">
+    <link href="~/admin/css/style.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">WW</h1>
+            </div>
+            <h3>Writer'a Kayıt Ol</h3>
+            <p>Yeni bir hesap oluşturun</p>
+            <form class="m-t" role="form" asp-action="RegisterUser">
+                <div class="form-group">
+                    <span asp-validation-for="@Model.NameSurname" class="text-danger"></span>
+                    <input type="text" class="form-control" asp-for="@Model.NameSurname" placeholder="İsim Soyisim" required="">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="@Model.UserName" class="text-danger"></span>
+                    <input type="text" class="form-control" asp-for="@Model.UserName" placeholder="Kullanıcı Adı" required="">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="@Model.Mail" class="text-danger"></span>
+                    <input type="email" class="form-control" asp-for="@Model.Mail" placeholder="E-mail" required="">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                    <input type="password" class="form-control" asp-for="@Model.Password" placeholder="Şifre" required="">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+                    <input type="password" class="form-control" asp-for="@Model.ConfirmPassword" placeholder="Şifre Tekrar" required="">
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">Kayıt Ol</button>
+
+                <p class="text-muted text-center"><small>Bir hesabın var mı?</small></p>
+                <a class="btn btn-sm btn-white btn-block" href="/Login/Login/">Giriş Yap</a>
+
+                <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            </form>
+            <div class="w3layouts-agile-copyrightbottom">
+                <p>
+                    ©2022 - @DateTime.Now.Year Asp.Net Core 5.0 Writer Blog Web Site. All rights reserved | Design by
+                    <a href="https://www.instagram.com/amoryazilim/" target="_blank">AMOR YAZILIM</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    @*Mainly scripts*@
+    <script src="~/admin/js/jquery-3.1.1.min.js"></script>
+    <script src="~/admin/js/popper.min.js"></script>
+    <script src="~/admin/js/bootstrap.js"></script>
+    @*iCheck*@
+    <script src="~/admin/js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });</script>
+</body>
+
+</html>

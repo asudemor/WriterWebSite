@@ -3,46 +3,48 @@ using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WriterWebSite.Models;
 
 namespace WriterWebSite.Controllers
 {
+    [AllowAnonymous]
     public class LoginController : Controller
     {
+        private readonly SignInManager<AppUser> _signInManager;
 
-        [AllowAnonymous]
+        public LoginController(SignInManager<AppUser> signInManager)
+        {
+            _signInManager = signInManager;
+        }
+
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(Writer writer)
+        public async Task<IActionResult> Login(UserSignInViewModel userSignIn)
         {
-            Context context = new Context();
-            var datavalues = context.Writers.FirstOrDefault(x => x.WriterMail == writer.WriterMail && x.WriterPassword == writer.WriterPassword);
-
-            if (datavalues != null)
+            if (ModelState.IsValid)
             {
-                var claims = new List<Claim>
+                var result = await _signInManager.PasswordSignInAsync(userSignIn.username, userSignIn.password, false, true);
+                if (result.Succeeded)
                 {
-                    new Claim(ClaimTypes.Name,writer.WriterMail)
-                };
-                var useridentity = new ClaimsIdentity(claims, "a");
-                ClaimsPrincipal principal = new ClaimsPrincipal(useridentity);
-                await HttpContext.SignInAsync(principal);
-                return RedirectToAction("Dashboard", "Dashboard");
+                    return RedirectToAction("Dashboard", "Dashboard");
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Login");
+                }
             }
-            else
-            {
-                return View();
-            }
+            return View();
         }
     }
 }
