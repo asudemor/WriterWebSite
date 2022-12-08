@@ -36,7 +36,8 @@ namespace WriterWebSite.Controllers
         }
         public IActionResult BlogListByWriter()
         {
-            var usermail = User.Identity.Name;
+            var username = User.Identity.Name;
+            var usermail = context.Users.Where(x => x.UserName == username).Select(y => y.Email).FirstOrDefault();
             var writerId = context.Writers.Where(x => x.WriterMail == usermail).Select(y => y.WriterID).FirstOrDefault();
             var values = bm.GetListWithCategoryByWriterBm(writerId);
             return View(values);
@@ -57,7 +58,8 @@ namespace WriterWebSite.Controllers
         [HttpPost]
         public IActionResult BlogAdd(Blog blog)
         {
-            var usermail = User.Identity.Name;
+            var username = User.Identity.Name;
+            var usermail = context.Users.Where(x => x.UserName == username).Select(y => y.Email).FirstOrDefault();
             var writerId = context.Writers.Where(x => x.WriterMail == usermail).Select(y => y.WriterID).FirstOrDefault();
             BlogValidator bv = new BlogValidator();
             ValidationResult results = bv.Validate(blog);
@@ -102,11 +104,27 @@ namespace WriterWebSite.Controllers
         [HttpPost]
         public IActionResult BlogEdit(Blog blog)
         {
-            var usermail = User.Identity.Name;
-            var writerId = context.Writers.Where(x => x.WriterMail == usermail).Select(y => y.WriterID).FirstOrDefault();
-            blog.WriterID = writerId;
-            bm.TUpdate(blog);
-            return RedirectToAction("BlogListByWriter", "Blog");
+            var username = User.Identity.Name;
+            var usermail = context.Users.Where(x => x.UserName == username).Select(y => y.Email).FirstOrDefault();
+            var writerId = context.Writers.Where(x => x.WriterMail == usermail).Select(y => y.WriterID).FirstOrDefault(); 
+            
+            BlogValidator bv = new BlogValidator();
+            ValidationResult results = bv.Validate(blog);
+            if (results.IsValid)
+            {
+                blog.WriterID = writerId;
+                bm.TUpdate(blog);
+                return RedirectToAction("BlogListByWriter", "Blog");
+            }
+            else
+            {
+                foreach (var item in results.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, "There is something wrong with Foo.");
+                    //ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                }
+            }
+            return View();
         }
     }
 }

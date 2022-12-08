@@ -59,34 +59,28 @@ namespace WriterWebSite.Controllers
             return PartialView();
         }
         [HttpGet]
-        public IActionResult WriterEditProfile()
+        public async Task<IActionResult> WriterEditProfile()
         {
-            var username = User.Identity.Name;
-            var usermail = context.Users.Where(x => x.UserName == username).Select(y => y.Email).FirstOrDefault();
-            var id = context.Users.Where(x => x.Email == usermail).Select(y => y.Id).FirstOrDefault();
-            var values = userManager.TGetByID(id);
-            return View(values);
+            var values = await _userManager.FindByNameAsync(User.Identity.Name);
+            UserUpdateViewModel model = new UserUpdateViewModel();
+            model.namesurname = values.NameSurname;
+            model.imageurl = values.ImageUrl;
+            model.mail = values.Email;
+            model.username = values.UserName;
+            return View(model);
         }
-        
+
         [HttpPost]
-        public IActionResult WriterEditProfile(Writer writer)
+        public async Task<IActionResult> WriterEditProfile(UserUpdateViewModel model)
         {
-            
-            WriterValidator wl = new WriterValidator();
-            ValidationResult results = wl.Validate(writer);
-            if (results.IsValid)
-            {   
-                wm.TUpdate(writer);
-                return RedirectToAction("Dashboard", "Dashboard");
-            }
-            else
-            {
-                foreach (var item in results.Errors)
-                {
-                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-                }
-            }
-            return View();
+
+            var values = await _userManager.FindByNameAsync(User.Identity.Name);
+            values.NameSurname = model.namesurname;
+            values.ImageUrl = model.imageurl;
+            values.Email = model.mail;
+            values.PasswordHash = _userManager.PasswordHasher.HashPassword(values, model.password);
+            var result = await _userManager.UpdateAsync(values);
+            return RedirectToAction("Dashboard", "Dashboard");
         }
 
         [AllowAnonymous]
@@ -100,7 +94,7 @@ namespace WriterWebSite.Controllers
         public IActionResult WriterAdd(AddProfileImage p)
         {
             Writer w = new Writer();
-            if (p.WriterImage!=null)
+            if (p.WriterImage != null)
             {
                 var extension = Path.GetExtension(p.WriterImage.FileName);
                 var newimagename = Guid.NewGuid() + extension;

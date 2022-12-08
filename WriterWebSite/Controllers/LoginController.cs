@@ -46,5 +46,11 @@ namespace WriterWebSite.Controllers
             }
             return View();
         }
+
+        public  async Task<ActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Login");
+        }
     }
 }

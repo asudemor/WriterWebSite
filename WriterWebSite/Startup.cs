@@ -44,6 +44,13 @@ namespace WriterWebSite
                     x.LoginPath = "/Login/Login/";
                 }
                 );
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                options.LoginPath = "/Login/Login/";
+                options.SlidingExpiration = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,7 +81,7 @@ namespace WriterWebSite
             {
                 endpoints.MapControllerRoute(
                    name: "areas",
-                   pattern: "{area:exists}/{controller=Home}/{action=Home}/{id?}");
+                   pattern: "{area:exists}/{controller=Login}/{action=Login}/{id?}");
 
                 endpoints.MapControllerRoute(
                     name: "default",

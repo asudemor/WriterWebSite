@@ -7,6 +7,20 @@
 <h1>YENİ BLOK GİRİŞ EKRANI</h1>
 <br />
 
+<ul>
+    <li>
+        <h6 class="danger-element">Blog içerik alanı uzunluğu 5 - 150 karakter aralığında olmalıdır.</h6>
+    </li>
+    <li>
+        <h6 class="danger-element">Blog başlık alanı uzunluğu 5 karakterten büyük olmalıdır.</h6>
+    </li>
+    <li>
+        <h6 class="danger-element">Blog görseli alanı dolu olmalıdır.</h6>
+    </li>
+</ul>
+
+<br />
+
 @using (Html.BeginForm("BlogAdd", "Blog", FormMethod.Post))
 {
     @Html.Label("Blog Başlığı")
@@ -29,3 +43,4 @@
     <br />
     <button class="btn btn-info">KAYDET</button>
 }
+
